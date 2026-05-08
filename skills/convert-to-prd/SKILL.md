@@ -1,14 +1,6 @@
 ---
 name: convert-to-prd
 description: Convert raw summary and decisions capture content into a structured Life Sciences / Bioinformatics / Research Platforms Product Requirements Document (PRD) template by using the provided PRD structure template (assets/PRD-TEMPLATE.md) and mapping guidelines.
-inputs:
-  - name: summary_content
-    type: text
-    description: The raw text content from summary templates that captures decisions, features, and planning notes.
-outputs:  
-  - name: prd_markdown
-    type: text
-    description: The generated markdown content of the Product Requirements Document (PRD) following the specified template structure.  
 ---
 
 # PRD Conversion Skill
