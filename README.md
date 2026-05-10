@@ -1,6 +1,6 @@
 # pdbe-bioskills
 
-A curated collection of skills and agent profiles, developed by PDBe team, for life sciences and bioinformatics workflows.
+A curated collection of skills and agent profiles, developed by PDBe team, for developing analyses and workflows of PDBe/structure datasets.
 
 ## Available items
 
