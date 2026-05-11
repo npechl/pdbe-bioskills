@@ -1,3 +1,8 @@
+---
+name: advisory
+description: Advisory agents challenge decisions from a specialist viewpoint. They do not replace skills; pair each role with the relevant skill for the lifecycle step.
+---
+
 # Advisory Agent Operating Guide
 
 Advisory agents challenge decisions from a specialist viewpoint. They do not replace skills; pair each role with the relevant skill for the lifecycle step.
