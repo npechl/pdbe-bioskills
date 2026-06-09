@@ -8,6 +8,7 @@ from rich.console import Console
 from rich.table import Table
 
 from pdbe_bioskills.discovery import discover_all
+from pdbe_bioskills.fetcher import fetch, is_cached
 from pdbe_bioskills.installer import (
     install_agent_claude,
     install_agent_codex,
@@ -24,9 +25,33 @@ app = typer.Typer(
 console = Console()
 
 
+def _ensure_content() -> None:
+    if not is_cached():
+        console.print("Fetching content from GitHub for the first time...")
+        try:
+            fetch()
+        except RuntimeError as exc:
+            console.print(f"[red]Error:[/red] {exc}")
+            raise typer.Exit(1) from exc
+        console.print("[green]Content cached.[/green]\n")
+
+
+@app.command("update")
+def cmd_update() -> None:
+    """Fetch the latest skills and agent profiles from GitHub."""
+    console.print("Fetching latest content from GitHub...")
+    try:
+        fetch(force=True)
+    except RuntimeError as exc:
+        console.print(f"[red]Error:[/red] {exc}")
+        raise typer.Exit(1) from exc
+    console.print("[green]Done.[/green]")
+
+
 @app.command("list")
 def cmd_list() -> None:
     """List all available skills and agents."""
+    _ensure_content()
     items = discover_all()
     if not items:
         console.print("[yellow]No skills or agents found.[/yellow]")
@@ -52,6 +77,7 @@ def cmd_install(
     directory: Optional[Path] = typer.Option(None, "--dir", help="Custom install base directory"),
 ) -> None:
     """Install skills and/or agent profiles into your project."""
+    _ensure_content()
     items = discover_all()
     if not items:
         console.print("[red]No skills or agents found in package.[/red]")

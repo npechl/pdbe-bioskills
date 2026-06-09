@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-import importlib.resources
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterator, Literal
+
+from pdbe_bioskills.fetcher import content_dir
 
 ItemKind = Literal["skill", "agent"]
 
@@ -16,8 +17,8 @@ class Item:
     source_dir: Path
 
 
-def _package_root() -> Path:
-    return Path(str(importlib.resources.files("pdbe_bioskills")))
+def _content_root() -> Path:
+    return content_dir()
 
 
 def _parse_frontmatter(path: Path) -> dict[str, str]:
@@ -35,7 +36,7 @@ def _parse_frontmatter(path: Path) -> dict[str, str]:
 
 
 def discover_skills() -> Iterator[Item]:
-    skills_root = _package_root() / "skills"
+    skills_root = _content_root() / "skills"
     if not skills_root.is_dir():
         return
     for skill_md in sorted(skills_root.rglob("SKILL.md")):
@@ -46,7 +47,7 @@ def discover_skills() -> Iterator[Item]:
 
 
 def discover_agents() -> Iterator[Item]:
-    profiles_root = _package_root() / "profiles"
+    profiles_root = _content_root() / "profiles"
     if not profiles_root.is_dir():
         return
     for agents_md in sorted(profiles_root.rglob("AGENTS.md")):
